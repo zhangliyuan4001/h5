@@ -30,7 +30,6 @@
             // context.stroke();
             // context.restore();
 
-            context.drawImage(img,0,0,740,302);
 
             context.save();
 
@@ -45,7 +44,7 @@
             //第二条曲线向右下方
             context.quadraticCurveTo(310,-250,410,-250);
 
-            context.strokeStyle = "#663300";
+            context.strokeStyle = context.createPattern(gravel, 'repeat');
             context.lineWidth = 20;
 
             context.stroke();
@@ -133,8 +132,11 @@
 
             context.stroke();
 
+            context.save();
+
             context.fillStyle = "#339900";
             context.fill();
+            context.restore();
 
 
 
@@ -178,86 +180,14 @@
 
 
 
-        var img = new Image();
-        img.src = "../images/img.jpg";
+        var gravel = new Image();
+        gravel.src = "../images/gravel.jpg";
 
-        img.onload = function(){
+        gravel.onload = function(){
             canvasFun();
         }
 
-        var points = {},
-            SCALE = 3,
-            x = -1,
-            y = -1;
 
-        function loadDemo() {
-            document.getElementById("resetButton").onclick = reset;
-            var canvas = document.getElementById("heatamp");
-
-            var context = canvas.getContext("2d");
-
-            context.globalAlpha = 0.2;
-            context.globalCompositeOperation = 'lighter';
-
-            function sample(){
-                if(x != -1){
-                    addToPoint(x,y);
-                }
-                setTimeout(sample,1);
-            }
-
-            canvas.onmousemove = function(e){
-                x = e.clientX - e.target.offsetLeft;
-                y = e.clientY - e.target.offsetTop;
-
-                addToPoint(x,y);
-            }
-
-
-            sample()
-
-            function reset(){
-                points = {};
-                context.clearRect(0,0,1000,1000);
-                x=-1;
-                y=-1;
-            }
-
-            function getColor(intensity){
-                var colors = ['#072933','#2E4045','#8C593B','#B2814E','#FAC268','#FAD237'];
-                return colors|Math.floor(intensity);
-            }
-
-            function drawPoint(x,y,radius){
-
-                context.fillStyle = getColor(radius);
-                radius = Math.sqrt(radius)*6;
-
-                context.beginPath();
-                context.arc(x,y,radius,0,Math.PI*2,true);
-
-                context.closePath();
-                context.fill();
-            }
-
-            function addToPoint(x,y){
-                x = Math.floor(x/SCALE);
-                Y = Math.floor(y/SCALE);
-                if(!points[[x,y]] ){
-                    points[[x,y]] = 1;
-                }else if(points[[x,y]] == 10){
-                    return
-                }else{
-                    points[[x,y]]++
-                }
-                drawPoint(x*SCALE,y*SCALE,points[[x,y]])
-            }
-
-
-        }
-
-
-        loadDemo()
 
 
 
